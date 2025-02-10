@@ -3,143 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neura - AI Voice Assistant</title>
-    <style>
-        body {
-            font-family: 'Orbitron', sans-serif;
-            background: #0a0a0a;
-            color: #00e1ff;
-            text-align: center;
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 400px;
-            position: relative;
-            text-align: center;
-        }
-
-        .output {
-            margin-top: 20px;
-            font-size: 18px;
-            min-height: 50px;
-            background: rgba(0, 255, 255, 0.1);
-            border: 2px solid #00e1ff;
-            padding: 15px;
-            border-radius: 10px;
-            text-shadow: 0 0 10px #00e1ff;
-        }
-
-        .neon-border {
-            width: 120px;
-            height: 120px;
-            background: radial-gradient(circle, rgba(0, 225, 255, 0.5) 30%, rgba(0, 225, 255, 0) 70%);
-            border: 2px solid #00e1ff;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            animation: glow 2s infinite alternate;
-        }
-
-        .neon-border img {
-            width: 50px;
-            height: 50px;
-        }
-
-        @keyframes glow {
-            0% { box-shadow: 0 0 10px #00e1ff; }
-            100% { box-shadow: 0 0 30px #00e1ff; }
-        }
-
-        .footer-text {
-            font-size: 14px;
-            color: #00e1ff;
-            margin-top: 15px;
-            opacity: 0.8;
-        }
-
-    </style>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <title>Neura - AI Assistant</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <div class="container">
-        <div class="neon-border">
-            <img src="https://cdn-icons-png.flaticon.com/512/3114/3114883.png" alt="Mic">
-        </div>
-        <div id="output" class="output">Listening...</div>
-        <div class="footer-text">Powered by Neura AI</div>
+    <div class="theme-switcher">
+        <label for="theme-select">Theme:</label>
+        <select id="theme-select">
+            <option value="default">Default</option>
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
+            <option value="neon">Neon</option>
+        </select>
     </div>
 
-    <script>
-        window.onload = function () {
-            startListening();
-        };
+    <div class="container">
+        <h1 class="title">Neura - AI Assistant</h1>
+        <div id="output" class="output">Waiting for your input...</div>
+        <div class="footer-text">Neura is listening...</div>
+    </div>
 
-        function startListening() {
-            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-            recognition.lang = 'en-US';
-            recognition.continuous = true; // Always listen until page refresh
-            recognition.start();
-
-            recognition.onresult = function (event) {
-                const transcript = event.results[event.results.length - 1][0].transcript;
-                document.getElementById("output").innerText = "You: " + transcript;
-                respondToUser(transcript);
-            };
-
-            recognition.onerror = function (event) {
-                document.getElementById("output").innerText = "Error: " + event.error;
-            };
-        }
-
-        function respondToUser(input) {
-            let response = "I'm not sure about that.";
-
-            if (input.includes("hello")) {
-                response = "Greetings, human. How can I assist you?";
-            } else if (input.includes("time")) {
-                response = "The current time is " + new Date().toLocaleTimeString();
-            } else if (input.includes("date")) {
-                response = "Today's date is " + new Date().toLocaleDateString();
-            } else if (input.includes("bye")) {
-                response = "Farewell, traveler. May the data be with you.";
-            } else if (input.includes("weather")) {
-                response = "I can analyze the weather for you. Please specify a city.";
-            } else if (input.includes("name")) {
-                response = "I am Neura, an advanced AI assistant.";
-            } else if (input.includes("who created you")) {
-                response = "I was built by a brilliant developer.";
-            } else if (input.includes("open google")) {
-                response = "Opening Google..."; window.open("https://www.google.com");
-            } else if (input.includes("tell me a joke")) {
-                response = "Why did the robot break up with the AI? It felt like it was being used for data mining.";
-            } else if (input.includes("tell me a fact")) {
-                response = "Did you know? There are more possible moves in a game of chess than atoms in the known universe.";
-            } else if (input.includes("meaning of life")) {
-                response = "The meaning of life is 42. At least, according to The Hitchhiker's Guide to the Galaxy.";
-            } else {
-                response = "I'm still learning. But I'm here to assist you.";
-            }
-
-            speak(response);
-        }
-
-        function speak(text) {
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'en-US';
-            window.speechSynthesis.speak(utterance);
-            document.getElementById("output").innerText += "\nAI: " + text;
-        }
-    </script>
-
+    <script src="ai-responses.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
